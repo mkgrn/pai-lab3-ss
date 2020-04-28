@@ -1,0 +1,18 @@
+.error {
+  font-weight: bold;
+  color: #ff0000;
+}
+.login {
+  font-style: italic;
+}
+form label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold;
+}
+td.label {
+  font-weight: bold;
+}
+img.profile {
+  vertical-align: top;
+}
