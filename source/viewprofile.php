@@ -5,13 +5,16 @@
     <meta charset="utf-8" />
     <title>Niedopasowani - Wyświetl profil</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
+
 </head>
 
 <body>
     <h3>Niedopasowani - Wyświetl profil</h3>
     <?php
-    require_once('source/appvars.php');
-    require_once('source/connectvars.php');
+    require_once('appvars.php');
+    require_once('connectvars.php');
+    require_once ('login.php');
+    
 
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
