@@ -3,6 +3,7 @@ session_start();
 require_once('connectvars.php');
 // Usuwanie komunikatu o błędzie.
 $error_msg = "";
+// Jeśli użytkownik nie jest zalogowany, należy spróbować go zalogować
 if (!isset($_SESSION['user_id'])) {
     if (isset($_POST['submit'])) {
         // Łączenie się z bazą danych.
@@ -20,6 +21,8 @@ if (!isset($_SESSION['user_id'])) {
                 $row = mysqli_fetch_array($data);
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['username'] = $row['username'];
+                setcookie('user_id', $row['user_id'], time() + (60 * 60 * 24 * 30)); // Wygasa za 30 dni.
+                setcookie('username', $row['username'], time() + (60 * 60 * 24 * 30)); // Wygasa za 30 dni.
                 $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
                 header('Location: ' . $home_url);
             } else {
@@ -44,7 +47,8 @@ if (!isset($_SESSION['user_id'])) {
     <h3>Niedopasowanie - Logowanie</h3>
     <?php
     if (empty($_SESSION['user_id'])) {
-        echo '<p class="error"' . $error_msg . '</p>'; ?>
+        echo '<p class="error"' . $error_msg . '</p>';
+    ?>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <fieldset>
                 <legend>Logowanie</legend>
@@ -61,8 +65,7 @@ if (!isset($_SESSION['user_id'])) {
     } else {
         // Potwierdzenie udanego zalogowania.
         echo '<p class="login">Zalogowany użytkownik: ' . $_SESSION['username'] . '.</p>';
-    }
-    ?>
+    } ?>
 </body>
 
 </html>

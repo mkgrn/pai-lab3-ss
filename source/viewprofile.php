@@ -1,16 +1,24 @@
+<?php
+session_start();
+// Jeśli zmienne sesji nie są ustawione, skrypt próbuje użyć plików cookie.
+if (!isset($_SESSION['user_id'])) {
+    if (isset($_COOKIE['user_id']) && isset($_COOKIE['username'])) {
+        $_SESSION['user_id'] = $_COOKIE['user_id'];
+        $_SESSION['username'] = $_COOKIE['username'];
+    }
+} ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
     <title>Niedopasowani - Wyświetl profil</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
     <h3>Niedopasowani - Wyświetl profil</h3>
     <?php
-    session_start();
     require_once('appvars.php');
     require_once('connectvars.php');
     // Przed przejściem do dalszych operacji należy się upewnić, że użytkownik jest zalogowany.
@@ -24,7 +32,6 @@
     }
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
     // Pobieranie danych użytkownika z bazy.
     if (!isset($_GET['user_id'])) {
         $query = "SELECT first_name, last_name, gender, birthdate, city, state, picture "
@@ -69,10 +76,12 @@
             }
         }
         if (!empty($row['city']) || !empty($row['state'])) {
-            echo '<tr><td class="label">Miejscowość:</td><td>' . $row['city'] . ', ' . $row['state'] . '</td></tr>';
+            echo '<tr><td class="label">Miejscowość:</td><td>' . $row['city'] . ', ' . $row['state']
+                . '</td></tr>';
         }
         if (!empty($row['picture'])) {
-            echo '<tr><td class="label">Zdjęcie:</td><td><img src="' . MM_UPLOADPATH . $row['picture'] . '" alt="Zdjęcie z profilu" /></td></tr>';
+            echo '<tr><td class="label">Zdjęcie:</td><td><img src="' . MM_UPLOADPATH . $row['picture']
+                . '" alt="Zdjęcie z profilu" /></td></tr>';
         }
         echo '</table>';
         if (!isset($_GET['user_id']) || ($user_id == $_GET['user_id'])) {
@@ -86,4 +95,4 @@
     ?>
 </body>
 
-</html>
+</html

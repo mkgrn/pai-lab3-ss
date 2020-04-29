@@ -34,14 +34,12 @@
                     . '<a href="editprofile.php">zmodyfikować profil</a>.</p>';
                 mysqli_close($dbc);
                 exit();
-            } else {
-                // Dana nazwa jest już zajęta, dlatego należy wyświetlić komunikat o błędzie.
+            } else { // Dana nazwa jest już zajęta, dlatego należy wyświetlić komunikat o błędzie.
                 echo '<p class="error">Dana nazwa jest już zajęta - spróbuj użyć innej.</p>';
                 $username = "";
             }
         } else {
-            echo '<p class="error">Musisz wpisać wszystkie dane (hasło należy wprowadzić dwukrotnie).'
-                . '</p>';
+            echo '<p class="error">Musisz wpisać wszystkie dane (hasło należy wprowadzić dwukrotnie).</p>';
         }
     }
     mysqli_close($dbc);
