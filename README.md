@@ -17,3 +17,5 @@ Odpowiedź na zadanie 3.1 - należałoby zmodyfikować zawartość index.php w t
 Odpowiedź na zadanie 3.2.1 - dzieje się tak, ponieważ hasła w bazie danych są zakodowane za pomocą polecenia SHA. 
 
 Odpowiedź na zadanie 3.2.2 - strona nie akceptuje zdjęcia. 
+
+Odpowiedź na zadanie 3.3.1 - strona ma problemy z akceptacją ciasteczek - po zalogowaniu użytkownika niewidoczne są odnośniki dla wylogowania i edycji konta w pliku index.php  

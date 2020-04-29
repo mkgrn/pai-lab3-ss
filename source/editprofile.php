@@ -5,15 +5,15 @@
     <meta charset="utf-8" />
     <title>Niedopasowani - Wyświetl profil</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
-    
 </head>
 
 <body>
     <h3>Niedopasowani - Edycja profilu</h3>
     <?php
+    $user_id = $_COOKIE['user_id'];
     require_once('appvars.php');
     require_once('connectvars.php');
-     require_once ('login.php');
+
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     if (isset($_POST['submit'])) {

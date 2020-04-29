@@ -13,11 +13,16 @@
     require_once('source/appvars.php');
     require_once('source/connectvars.php');
 
-    // Generowanie menu nawigacyjnego.
-    echo '&#10084; <a href="source/viewprofile.php">Wyświetl profil</a><br />';
-    echo '&#10084; <a href="source/editprofile.php">Edytuj profil</a><br />';
-    echo '&#10084; <a href="source/signup.php">Zarejestruj się</a><br />';
-
+    // Generowanie menu nawigacyjnego. 
+    if (isset($_COOKIE['username'])) { 
+        echo '&#10084; <a href="source/viewprofile.php">Wyświetl profil</a><br />';     
+        echo '&#10084; <a href="source/editprofile.php">Edytuj profil</a><br />'; 
+        echo '&#10084; <a href="source/logout.php">Wyloguj się (' . $_COOKIE['username'] . ')</a><br />'; 
+    } else { 
+        echo '&#10084; <a href="source/login.php">Zaloguj się</a><br />'; 
+        echo '&#10084; <a href="source/signup.php">Zarejestruj się</a><br />'; 
+    } 
+    
 
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
