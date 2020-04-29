@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,15 +15,15 @@
     require_once('source/connectvars.php');
 
     // Generowanie menu nawigacyjnego. 
-    if (isset($_COOKIE['username'])) { 
-        echo '&#10084; <a href="source/viewprofile.php">Wyświetl profil</a><br />';     
-        echo '&#10084; <a href="source/editprofile.php">Edytuj profil</a><br />'; 
-        echo '&#10084; <a href="source/logout.php">Wyloguj się (' . $_COOKIE['username'] . ')</a><br />'; 
-    } else { 
-        echo '&#10084; <a href="source/login.php">Zaloguj się</a><br />'; 
-        echo '&#10084; <a href="source/signup.php">Zarejestruj się</a><br />'; 
-    } 
-    
+    if (isset($_SESSION['username'])) {
+        echo '&#10084; <a href="source/viewprofile.php">Wyświetl profil</a><br />';
+        echo '&#10084; <a href="source/editprofile.php">Edytuj profil</a><br />';
+        echo '&#10084; <a href="source/logout.php">Wyloguj się (' . $_SESSION['username'] . ')</a><br />';
+    } else {
+        echo '&#10084; <a href="source/login.php">Zaloguj się</a><br />';
+        echo '&#10084; <a href="source/signup.php">Zarejestruj się</a><br />';
+    }
+
 
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -41,6 +42,13 @@
             echo '<tr><td><img src="' . MM_UPLOADPATH . 'nopic.jpg" alt="' . $row['first_name'] . '" /></td>';
         }
         echo '<td>' . $row['first_name'] . '</td></tr>';
+
+        if (isset($_SESSION['user_id'])) { // Dodanie odnośnika umożliwiającego przeglądanie kont użytkowników
+            echo '<td><a href="viewprofile.php?user_id=' . $row['user_id'] . '">' . $row['first_name']
+                . '</a></td></tr>';
+        } else {
+            echo '<td>' . $row['first_name'] . '</td></tr>';
+        }
     }
     echo '</table>';
 

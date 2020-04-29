@@ -10,10 +10,18 @@
 <body>
     <h3>Niedopasowani - Edycja profilu</h3>
     <?php
-    $user_id = $_COOKIE['user_id'];
+    session_start();
     require_once('appvars.php');
     require_once('connectvars.php');
-
+    // Przed przejściem do dalszych operacji należy się upewnić, że użytkownik jest zalogowany.
+if (!isset($_SESSION['user_id'])) {
+    echo '<p class="login"><a href="login.php">Zaloguj się</a>, aby uzyskać dostęp do strony.</p>';
+    exit();
+    } else {
+    echo('<p class="login">Zalogowany użytkownik: ' . $_SESSION['username']
+    . '. <a href="logout.php">Wyloguj się</a>.</p>');
+    $user_id = $_SESSION['user_id'];
+    }
     // Łączenie się z bazą danych.
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     if (isset($_POST['submit'])) {

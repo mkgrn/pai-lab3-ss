@@ -1,9 +1,9 @@
 <?php
+session_start();
 require_once('connectvars.php');
 // Usuwanie komunikatu o błędzie.
 $error_msg = "";
-// Jeśli użytkownik nie jest zalogowany, należy spróbować go zalogować
-if (!isset($_COOKIE['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     if (isset($_POST['submit'])) {
         // Łączenie się z bazą danych.
         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -18,10 +18,9 @@ if (!isset($_COOKIE['user_id'])) {
             if (mysqli_num_rows($data) == 1) {
                 // Dane logowania są poprawne, dlatego należy ustawić pliki cookie i przejść do strony.
                 $row = mysqli_fetch_array($data);
-                setcookie('user_id', $row['user_id']);
-                setcookie('username', $row['username']);
-                $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .
-                    'index.php';
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['username'] = $row['username'];
+                $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
                 header('Location: ' . $home_url);
             } else {
                 // Para nazwa użytkownika - hasło jest nieprawidłowe, dlatego należy ustawić komunikat.
@@ -43,7 +42,8 @@ if (!isset($_COOKIE['user_id'])) {
 
 <body>
     <h3>Niedopasowanie - Logowanie</h3>
-    <?php if (empty($_COOKIE['user_id'])) {
+    <?php
+    if (empty($_SESSION['user_id'])) {
         echo '<p class="error"' . $error_msg . '</p>'; ?>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <fieldset>
@@ -60,8 +60,9 @@ if (!isset($_COOKIE['user_id'])) {
     <?php
     } else {
         // Potwierdzenie udanego zalogowania.
-        echo '<p class="login">Zalogowany użytkownik: ' . $_COOKIE['username'] . '.</p>';
-    } ?>
+        echo '<p class="login">Zalogowany użytkownik: ' . $_SESSION['username'] . '.</p>';
+    }
+    ?>
 </body>
 
 </html>
